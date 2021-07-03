@@ -15,6 +15,10 @@ type Subscription struct {
 	CardToken                string    `json:"card_token,omitempty"`
 }
 
+type SubscriptionResponse struct {
+	Response Subscription `json:"response,omitempty"`
+}
+
 type SubscriptionsResponse struct {
 	Response []Subscription `json:"response,omitempty"`
 	Count      int                    `json:"count"`
