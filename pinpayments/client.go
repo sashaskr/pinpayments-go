@@ -39,6 +39,7 @@ type Client struct {
 	WebhookEndpoints *WebhookEndpointsService
 	Webhooks         *WebhooksService
 	Plans            *PlansService
+	Subscription     *SubscriptionService
 }
 
 type service struct {
@@ -94,7 +95,7 @@ func NewClient(baseClient *http.Client, c *Config) (pinpayments *Client, err err
 	pinpayments.WebhookEndpoints = (*WebhookEndpointsService)(&pinpayments.common)
 	pinpayments.Webhooks = (*WebhooksService)(&pinpayments.common)
 	pinpayments.Plans = (*PlansService)(&pinpayments.common)
-
+	pinpayments.Subscription = (*SubscriptionService)(&pinpayments.common)
 	// here is all services end
 
 	pinpayments.publishableKey = c.publishableKey

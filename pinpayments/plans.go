@@ -131,7 +131,7 @@ func (ps *PlansService) Delete(token string) (pr bool, err error) {
 		panic(err)
 	}
 	if res.StatusCode != 204 {
-		panic("user not found")
+		panic("plan not found")
 	}
 
 	return true, nil

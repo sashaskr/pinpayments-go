@@ -1,6 +1,13 @@
 package pinpayments
 
-import "time"
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"time"
+)
+
+type SubscriptionService service
 
 type Subscription struct {
 	State                    string    `json:"state,omitempty"`
@@ -30,4 +37,150 @@ type SubscriptionsResponse struct {
 		Pages    int `json:"pages"`
 		Count    int `json:"count"`
 	} `json:"pagination"`
+}
+
+type LedgerResponse struct {
+	Response []Ledger `json:"response,omitempty"`
+	Count      int                    `json:"count"`
+	Pagination struct {
+		Current  int `json:"current"`
+		Previous int `json:"previous"`
+		Next     int `json:"next"`
+		PerPage  int `json:"per_page"`
+		Pages    int `json:"pages"`
+		Count    int `json:"count"`
+	} `json:"pagination"`
+}
+
+type Ledger struct {
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	Type string `json:"type,omitempty"`
+	Amount int `json:"amount,omitempty"`
+	Currency string `json:"currency,omitempty"`
+	Annotation string `json:"annotation,omitempty"`
+}
+
+func (ss *SubscriptionService) Create(subscription Subscription) (sr *SubscriptionResponse, err error) {
+	req, err := ss.client.NewAPIRequest(true, http.MethodPost, "subscriptions", subscription)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := ss.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(res.content, &sr); err != nil {
+		return
+	}
+	return
+}
+
+
+func (ss *SubscriptionService) GetAll() (sr *SubscriptionsResponse, err error) {
+	req, err := ss.client.NewAPIRequest(true, http.MethodGet, "subscriptions", nil)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := ss.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(res.content, &sr); err != nil {
+		return
+	}
+	return
+}
+
+func (ss *SubscriptionService) Get(token string) (sr *SubscriptionResponse, err error) {
+	u := fmt.Sprintf("subscriptions/%s", token)
+	req, err := ss.client.NewAPIRequest(true, http.MethodGet, u, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := ss.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(res.content, &sr); err != nil {
+		return
+	}
+	return
+}
+
+func (ss *SubscriptionService) Update(subscription *Subscription) (sr *SubscriptionResponse, err error) {
+	u := fmt.Sprintf("subscriptions/%s", subscription.Token)
+	req, err := ss.client.NewAPIRequest(true, http.MethodPut, u, subscription)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := ss.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(res.content, &sr); err != nil {
+		return
+	}
+	return
+}
+
+func (ss *SubscriptionService) Delete(token string) (pr bool, err error) {
+	u := fmt.Sprintf("subscriptions/%s", token)
+	req, err := ss.client.NewAPIRequest(true, http.MethodDelete, u, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := ss.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	if res.StatusCode != 204 {
+		panic("subscription not found")
+	}
+
+	return true, nil
+}
+
+func (ss *SubscriptionService) ReactivateSubscription(subscription *Subscription) (sr *SubscriptionResponse, err error) {
+	u := fmt.Sprintf("subscriptions/%s/reactivate", subscription.Token)
+	req, err := ss.client.NewAPIRequest(true, http.MethodPut, u, subscription)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := ss.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(res.content, &sr); err != nil {
+		return
+	}
+	return
+}
+
+func (ss *SubscriptionService) GetLedger(token string) (lr *LedgerResponse, err error) {
+	u := fmt.Sprintf("subscriptions/%s/ledger", token)
+	req, err := ss.client.NewAPIRequest(true, http.MethodGet, u, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := ss.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(res.content, &lr); err != nil {
+		return
+	}
+	return
 }
