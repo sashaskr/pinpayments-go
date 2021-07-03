@@ -20,22 +20,23 @@ const (
 )
 
 type Client struct {
-	BaseURL        *url.URL
-	config         *Config
-	userAgent      string
-	client         *http.Client
-	common         service
-	secretKey      string
-	publishableKey string
-	Charges        *ChagresService
-	Customers      *CustomersService
-	Refunds        *RefundsService
-	Cards          *CardsService
-	Recipients     *RecipientsService
-	Transfers      *TransfersService
-	Balance        *BalanceService
-	BankAccount    *BankAccountService
-	Events         *EventsService
+	BaseURL          *url.URL
+	config           *Config
+	userAgent        string
+	client           *http.Client
+	common           service
+	secretKey        string
+	publishableKey   string
+	Charges          *ChagresService
+	Customers        *CustomersService
+	Refunds          *RefundsService
+	Cards            *CardsService
+	Recipients       *RecipientsService
+	Transfers        *TransfersService
+	Balance          *BalanceService
+	BankAccount      *BankAccountService
+	Events           *EventsService
+	WebhookEndpoints *WebhookEndpointsService
 }
 
 type service struct {
@@ -88,6 +89,7 @@ func NewClient(baseClient *http.Client, c *Config) (pinpayments *Client, err err
 	pinpayments.Balance = (*BalanceService)(&pinpayments.common)
 	pinpayments.BankAccount = (*BankAccountService)(&pinpayments.common)
 	pinpayments.Events = (*EventsService)(&pinpayments.common)
+	pinpayments.WebhookEndpoints = (*WebhookEndpointsService)(&pinpayments.common)
 	// here is all services end
 
 	pinpayments.publishableKey = c.publishableKey
