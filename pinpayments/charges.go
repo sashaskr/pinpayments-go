@@ -70,21 +70,23 @@ type Metadata struct {
 }
 
 type Card struct {
-	Number          string `json:"number,omitempty"`
-	ExpiryMonth     int    `json:"expiry_month,omitempty"`
-	ExpiryYear      int    `json:"expiry_year,omitempty"`
-	CVC             string `json:"cvc,omitempty"`
-	Name            string `json:"name,omitempty"`
-	AddressLine1    string `json:"address_line1,omitempty"`
-	AddressLine2    string `json:"address_line2,omitempty"`
-	AddressCity     string `json:"address_city,omitempty"`
-	AddressPostcode string `json:"address_postcode,omitempty"`
-	AddressState    string `json:"address_state,omitempty"`
-	AddressCountry  string `json:"address_country,omitempty"`
-	Scheme          string `json:"scheme,omitempty"`
-	DisplayNumber   string `json:"display_number,omitempty"`
-	IssuingCountry  string `json:"issuing_country,omitempty"`
-	CustomerToken   string `json:"customer_token,omitempty"`
+	Number            string `json:"number,omitempty"`
+	ExpiryMonth       int    `json:"expiry_month,omitempty"`
+	ExpiryYear        int    `json:"expiry_year,omitempty"`
+	CVC               string `json:"cvc,omitempty"`
+	Name              string `json:"name,omitempty"`
+	AddressLine1      string `json:"address_line1,omitempty"`
+	AddressLine2      string `json:"address_line2,omitempty"`
+	AddressCity       string `json:"address_city,omitempty"`
+	AddressPostcode   string `json:"address_postcode,omitempty"`
+	AddressState      string `json:"address_state,omitempty"`
+	AddressCountry    string `json:"address_country,omitempty"`
+	Scheme            string `json:"scheme,omitempty"`
+	DisplayNumber     string `json:"display_number,omitempty"`
+	IssuingCountry    string `json:"issuing_country,omitempty"`
+	CustomerToken     string `json:"customer_token,omitempty"`
+	Token             string `json:"token,omitempty"`
+	PublishableApiKey string `json:"publishable_api_key,omitempty"`
 }
 
 type ThreeDSecure struct {
@@ -196,7 +198,7 @@ func (cs *ChagresService) Search(search Search) (cr *ChargesResponse, err error)
 	if err != nil {
 		panic(err)
 	}
-	u := fmt.Sprintf("charges/search/?%s",v.Encode())
+	u := fmt.Sprintf("charges/search/?%s", v.Encode())
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	//TODO: Add pagination here
 	if err != nil {
