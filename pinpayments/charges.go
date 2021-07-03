@@ -69,26 +69,6 @@ type Metadata struct {
 	TimeOrderCompleted time.Time `json:"time_order_completed,omitempty"`
 }
 
-type Card struct {
-	Number            string `json:"number,omitempty"`
-	ExpiryMonth       int    `json:"expiry_month,omitempty"`
-	ExpiryYear        int    `json:"expiry_year,omitempty"`
-	CVC               string `json:"cvc,omitempty"`
-	Name              string `json:"name,omitempty"`
-	AddressLine1      string `json:"address_line1,omitempty"`
-	AddressLine2      string `json:"address_line2,omitempty"`
-	AddressCity       string `json:"address_city,omitempty"`
-	AddressPostcode   string `json:"address_postcode,omitempty"`
-	AddressState      string `json:"address_state,omitempty"`
-	AddressCountry    string `json:"address_country,omitempty"`
-	Scheme            string `json:"scheme,omitempty"`
-	DisplayNumber     string `json:"display_number,omitempty"`
-	IssuingCountry    string `json:"issuing_country,omitempty"`
-	CustomerToken     string `json:"customer_token,omitempty"`
-	Token             string `json:"token,omitempty"`
-	PublishableApiKey string `json:"publishable_api_key,omitempty"`
-}
-
 type ThreeDSecure struct {
 	Version       string `json:"version,omitempty"`
 	Eci           string `json:"eci,omitempty"`
