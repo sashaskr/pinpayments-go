@@ -29,6 +29,8 @@ type Client struct {
 	publishableKey string
 	Charges        *ChagresService
 	Customers      *CustomersService
+	Refunds        *RefundsService
+	Cards          *CardsService
 }
 
 type service struct {
@@ -74,6 +76,8 @@ func NewClient(baseClient *http.Client, c *Config) (pinpayments *Client, err err
 	// here is all services begin
 	pinpayments.Charges = (*ChagresService)(&pinpayments.common)
 	pinpayments.Customers = (*CustomersService)(&pinpayments.common)
+	pinpayments.Refunds = (*RefundsService)(&pinpayments.common)
+	pinpayments.Cards = (*CardsService)(&pinpayments.common)
 	// here is all services end
 
 	pinpayments.publishableKey = c.publishableKey
