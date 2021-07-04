@@ -1,4 +1,4 @@
-module pinpayments-go/pinpayments
+module pinpayments-go
 
 go 1.16
 
