@@ -60,7 +60,7 @@ type Ledger struct {
 	Annotation string `json:"annotation,omitempty"`
 }
 
-func (ss *SubscriptionService) Create(subscription Subscription) (sr *SubscriptionResponse, err error) {
+func (ss *SubscriptionService) Create(subscription *Subscription) (sr *SubscriptionResponse, err error) {
 	req, err := ss.client.NewAPIRequest(true, http.MethodPost, "subscriptions", subscription)
 	if err != nil {
 		panic(err)

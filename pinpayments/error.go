@@ -9,10 +9,12 @@ import (
 )
 
 type Error struct {
-	Code     int            `json:"code"`
-	Message  string         `json:"message"`
-	Content  string         `json:"content,omitempty"`
-	Response *http.Response `json:"response"` // the full response that produced the error
+	Code             int            `json:"code,omitempty"`
+	Message          string         `json:"message,omitempty"`
+	Content          string         `json:"content,omitempty"`
+	Response         *http.Response `json:"response,omitempty"` // the full response that produced the error
+	ErrorMessage     string         `json:"error,omitempty"`
+	ErrorDescription string         `json:"error_description,omitempty"`
 }
 
 var (
