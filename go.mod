@@ -1,4 +1,4 @@
-module pinpayments-go
+module github.com/sashaskr/pinpayments-go
 
 go 1.16
 
