@@ -40,4 +40,5 @@ You can ask me a questions via [https://github.com/sashaskr/pinpayments-go/discu
 
 Enjoy!
 v1.0.0
+
 [https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a]: https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a
