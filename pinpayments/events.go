@@ -21,6 +21,7 @@ type EventResponse struct {
 }
 
 type EventsResponse struct {
+	PaginationInterface
 	Response   []Event `json:"response,omitempty"`
 	Count      int     `json:"count"`
 	Pagination struct {
@@ -33,8 +34,10 @@ type EventsResponse struct {
 	} `json:"pagination"`
 }
 
-func (es *EventsService) GetAll() (er *EventsResponse, err error) {
+func (es *EventsService) GetAll(page int) (er *EventsResponse, err error) {
+	es.client.SetPage(page)
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, "events", nil)
+
 	if err != nil {
 		panic(err)
 	}

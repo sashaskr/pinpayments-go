@@ -39,7 +39,8 @@ type WebhooksResponse struct {
 	} `json:"pagination"`
 }
 
-func (ws *WebhooksService) GetAll() (wr *WebhooksResponse, err error) {
+func (ws *WebhooksService) GetAll(page int) (wr *WebhooksResponse, err error) {
+	ws.client.SetPage(page)
 	req, err := ws.client.NewAPIRequest(true, http.MethodGet, "webhooks", nil)
 	if err != nil {
 		panic(err)
