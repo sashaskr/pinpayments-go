@@ -15,6 +15,7 @@ type Merchant struct {
 	Business    Business    `json:"business,omitempty"`
 	BankAccount BankAccount `json:"bank_account,omitempty"`
 	Director    Director    `json:"director,omitempty"`
+	Notes       string      `json:"notes,omitempty"`
 }
 
 type Contact struct {
@@ -217,4 +218,3 @@ func (ms *MerchantsService) GetDefault(token string) (mr *MerchantFullResponse, 
 	}
 	return
 }
-
