@@ -12,7 +12,7 @@ type WebhookEndpointsService service
 type Endpoint struct {
 	Token     string    `json:"token,omitempty"`
 	Key       string    `json:"key,omitempty"`
-	Url       string   `json:"url,omitempty"`
+	Url       string    `json:"url,omitempty"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
@@ -22,8 +22,8 @@ type EndpointResponse struct {
 }
 
 type EndpointsResponse struct {
-	Response []Endpoint `json:"response,omitempty"`
-	Count      int         `json:"count"`
+	Response   []Endpoint `json:"response,omitempty"`
+	Count      int        `json:"count"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`
@@ -36,7 +36,7 @@ type EndpointsResponse struct {
 
 func (es *WebhookEndpointsService) Create(endpoint *Endpoint) (er *EndpointResponse, err error) {
 	req, err := es.client.NewAPIRequest(true, http.MethodPost, "webhook_endpoints", endpoint)
-	if err !=  nil {
+	if err != nil {
 		panic(err)
 	}
 

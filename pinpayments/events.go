@@ -10,10 +10,10 @@ import (
 type EventsService service
 
 type Event struct {
-	Token string `json:"token,omitempty"`
-	Type string `json:"type,omitempty"`
-	Data interface{} `json:"data,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	Token     string      `json:"token,omitempty"`
+	Type      string      `json:"type,omitempty"`
+	Data      interface{} `json:"data,omitempty"`
+	CreatedAt time.Time   `json:"created_at,omitempty"`
 }
 
 type EventResponse struct {
@@ -21,8 +21,8 @@ type EventResponse struct {
 }
 
 type EventsResponse struct {
-	Response []Event `json:"response,omitempty"`
-	Count      int         `json:"count"`
+	Response   []Event `json:"response,omitempty"`
+	Count      int     `json:"count"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`

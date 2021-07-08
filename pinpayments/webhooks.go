@@ -11,16 +11,16 @@ import (
 type WebhooksService service
 
 type Webhook struct {
-	Token string `json:"token,omitempty"`
-	Status string `json:"status,omitempty"`
-	Url url.URL `json:"url,omitempty"`
-	EventToken string `json:"event_token,omitempty"`
-	WebhookEndpointToken string `json:"webhook_endpoint_token,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	AcceptedAt time.Time `json:"accepted_at,omitempty"`
-	NextRun time.Time `json:"next_run,omitempty"`
-	Retries int `json:"retries,omitempty"`
-	Errors interface{} `json:"errors,omitempty"`
+	Token                string      `json:"token,omitempty"`
+	Status               string      `json:"status,omitempty"`
+	Url                  url.URL     `json:"url,omitempty"`
+	EventToken           string      `json:"event_token,omitempty"`
+	WebhookEndpointToken string      `json:"webhook_endpoint_token,omitempty"`
+	CreatedAt            time.Time   `json:"created_at,omitempty"`
+	AcceptedAt           time.Time   `json:"accepted_at,omitempty"`
+	NextRun              time.Time   `json:"next_run,omitempty"`
+	Retries              int         `json:"retries,omitempty"`
+	Errors               interface{} `json:"errors,omitempty"`
 }
 
 type WebhookResponse struct {
@@ -28,7 +28,7 @@ type WebhookResponse struct {
 }
 
 type WebhooksResponse struct {
-	Response []Webhook `json:"response,omitempty"`
+	Response   []Webhook `json:"response,omitempty"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`
@@ -73,7 +73,6 @@ func (es *WebhooksService) Get(token string) (er *WebhookResponse, err error) {
 	}
 	return
 }
-
 
 func (es *WebhooksService) Replay(token string) (er *WebhookResponse, err error) {
 	u := fmt.Sprintf("webhooks/%s/replay", token)
