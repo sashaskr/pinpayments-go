@@ -51,7 +51,8 @@ func (es *WebhookEndpointsService) Create(endpoint *Endpoint) (er *EndpointRespo
 	return
 }
 
-func (es *WebhookEndpointsService) GetAll() (er *EndpointsResponse, err error) {
+func (es *WebhookEndpointsService) GetAll(page int) (er *EndpointsResponse, err error) {
+	es.client.SetPage(page)
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, "webhook_endpoints", nil)
 	if err != nil {
 		panic(err)

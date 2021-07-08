@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -28,7 +29,6 @@ func (c *Client) NewAPIRequest(secret bool, method string, uri string, body inte
 	if c.config.testing {
 		u.Query().Add("testmode", "true")
 	}
-
 	var buf io.ReadWriter
 	if body != nil {
 		buf = new(bytes.Buffer)
@@ -41,6 +41,13 @@ func (c *Client) NewAPIRequest(secret bool, method string, uri string, body inte
 	}
 
 	req, err = http.NewRequest(method, u.String(), buf)
+
+	if c.page != nil {
+		q := req.URL.Query()
+		q.Add("page", strconv.Itoa(*c.page))
+		req.URL.RawQuery = q.Encode()
+	}
+
 	if err != nil {
 		return nil, err
 	}

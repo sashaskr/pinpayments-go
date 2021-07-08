@@ -77,6 +77,7 @@ type ThreeDSecure struct {
 }
 
 type Search struct {
+	Page      int
 	Query     string    `url:"query,omitempty"`
 	StartDate time.Time `url:"start_date,omitempty"`
 	EndDate   time.Time `url:"end_date,omitempty"`
@@ -155,9 +156,9 @@ func (cs *ChargesService) Get(token string) (cr *ChargeResponse, err error) {
 	return
 }
 
-func (cs *ChargesService) GetAll() (cr *ChargesResponse, err error) {
+func (cs *ChargesService) GetAll(page int) (cr *ChargesResponse, err error) {
+	cs.client.SetPage(page)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, "charges", nil)
-	//TODO: Add pagination here
 	if err != nil {
 		panic(err)
 	}
@@ -174,13 +175,13 @@ func (cs *ChargesService) GetAll() (cr *ChargesResponse, err error) {
 }
 
 func (cs *ChargesService) Search(search Search) (cr *ChargesResponse, err error) {
+	cs.client.SetPage(search.Page)
 	v, err := query.Values(search)
 	if err != nil {
 		panic(err)
 	}
 	u := fmt.Sprintf("charges/search/?%s", v.Encode())
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
-	//TODO: Add pagination here
 	if err != nil {
 		panic(err)
 	}

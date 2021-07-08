@@ -42,7 +42,8 @@ type RefundRequest struct {
 	Amount      int `json:"amount,omitempty"`
 }
 
-func (rs *RefundsService) GetAll() (rr *RefundsResponse, err error) {
+func (rs *RefundsService) GetAll(page int) (rr *RefundsResponse, err error) {
+	rs.client.SetPage(page)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, "refunds", nil)
 	if err != nil {
 		panic(err)
@@ -95,7 +96,8 @@ func (rs *RefundsService) Create(refundRequest *RefundRequest) (rr *RefundRespon
 	return
 }
 
-func (rs *RefundsService) GetRefundsForCharge(token string) (rr *RefundsResponse, err error) {
+func (rs *RefundsService) GetRefundsForCharge(token string, page int) (rr *RefundsResponse, err error) {
+	rs.client.SetPage(page)
 	u := fmt.Sprintf("charges/%s/refunds", token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {

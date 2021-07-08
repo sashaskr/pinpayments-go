@@ -95,7 +95,8 @@ func (cs *CustomersService) Create(customer *CustomerRequest) (cr *CustomerRespo
 	return
 }
 
-func (cs *CustomersService) GetAll() (cr *CustomersResponse, err error) {
+func (cs *CustomersService) GetAll(page int) (cr *CustomersResponse, err error) {
+	cs.client.SetPage(page)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, "customers", nil)
 	if err != nil {
 		panic(err)

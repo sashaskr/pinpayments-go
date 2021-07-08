@@ -77,7 +77,8 @@ func (ss *SubscriptionService) Create(subscription *Subscription) (sr *Subscript
 	return
 }
 
-func (ss *SubscriptionService) GetAll() (sr *SubscriptionsResponse, err error) {
+func (ss *SubscriptionService) GetAll(page int) (sr *SubscriptionsResponse, err error) {
+	ss.client.SetPage(page)
 	req, err := ss.client.NewAPIRequest(true, http.MethodGet, "subscriptions", nil)
 	if err != nil {
 		panic(err)

@@ -66,7 +66,8 @@ func (ps *PlansService) Create(plan *Plan) (pr *PlanResponse, err error) {
 	return
 }
 
-func (ps *PlansService) GetAll() (pr *PlansResponse, err error) {
+func (ps *PlansService) GetAll(page int) (pr *PlansResponse, err error) {
+	ps.client.SetPage(page)
 	req, err := ps.client.NewAPIRequest(true, http.MethodGet, "plans", nil)
 	if err != nil {
 		panic(err)

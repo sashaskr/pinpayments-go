@@ -167,7 +167,8 @@ func (ms *MerchantsService) Create(merchant *Merchant) (mr *MerchantResponse, er
 	return
 }
 
-func (ms *MerchantsService) GetAll() (mr *MerchantsResponse, err error) {
+func (ms *MerchantsService) GetAll(page int) (mr *MerchantsResponse, err error) {
+	ms.client.SetPage(page)
 	req, err := ms.client.NewAPIRequest(true, http.MethodGet, "merchants", nil)
 	if err != nil {
 		panic(err)

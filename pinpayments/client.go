@@ -20,6 +20,8 @@ const (
 )
 
 type Client struct {
+	PaginationInterface
+	page             *int
 	BaseURL          *url.URL
 	config           *Config
 	userAgent        string
@@ -45,6 +47,14 @@ type Client struct {
 
 type service struct {
 	client *Client
+}
+
+type PaginationInterface interface {
+	SetPage(page int)
+}
+
+func (c *Client) SetPage(page int) {
+	c.page = &page
 }
 
 func (c *Client) WithAuthenticationValue(k string, p string) error {

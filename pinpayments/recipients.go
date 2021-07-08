@@ -52,7 +52,8 @@ func (rs *RecipientsService) Create(recipient *Recipient) (rr *RecipientResponse
 	return
 }
 
-func (rs *RecipientsService) GetAll() (rr RecipientsResponse, err error) {
+func (rs *RecipientsService) GetAll(page int) (rr RecipientsResponse, err error) {
+	rs.client.SetPage(page)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, "recipients", nil)
 	if err != nil {
 		panic(err)

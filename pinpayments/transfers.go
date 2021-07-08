@@ -89,7 +89,8 @@ func (ts *TransfersService) Create(transfer *Transfer) (tr *TransferResponse, er
 	return
 }
 
-func (ts *TransfersService) GetAll() (tr *TransfersResponse, err error) {
+func (ts *TransfersService) GetAll(page int) (tr *TransfersResponse, err error) {
+	ts.client.SetPage(page)
 	req, err := ts.client.NewAPIRequest(true, http.MethodGet, "transfers", nil)
 	if err != nil {
 		panic(err)
@@ -125,6 +126,7 @@ func (ts *TransfersService) Get(token string) (tr *TransferResponse, err error) 
 }
 
 func (ts *TransfersService) Search(search Search) (tr *TransfersResponse, err error) {
+	ts.client.SetPage(search.Page)
 	v, err := query.Values(search)
 	if err != nil {
 		panic(err)
@@ -146,7 +148,8 @@ func (ts *TransfersService) Search(search Search) (tr *TransfersResponse, err er
 	return
 }
 
-func (ts *TransfersService) GetLineItems(token string) (lr *LineItemsResponse, err error) {
+func (ts *TransfersService) GetLineItems(token string, page int) (lr *LineItemsResponse, err error) {
+	ts.client.SetPage(page)
 	u := fmt.Sprintf("transfers/%s/line_items", token)
 	req, err := ts.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
