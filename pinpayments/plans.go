@@ -10,27 +10,27 @@ import (
 type PlansService service
 
 type Plan struct {
-	Name string `json:"name,omitempty"`
-	Amount int `json:"amount,omitempty"`
-	Currency string `json:"currency,omitempty"`
-	SetupAmount int `json:"setup_amount,omitempty"`
-	TrialAmount int `json:"trial_amount,omitempty"`
-	Interval int `json:"interval,omitempty"`
-	IntervalUnit string `json:"interval_unit,omitempty"`
-	Intervals int `json:"intervals,omitempty"`
-	TrialInterval int `json:"trial_interval,omitempty"`
-	TrialIntervalUnit string `json:"trial_interval_unit,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	Token string `json:"token,omitempty"`
-	CustomerPermissions []string `json:"customer_permissions,omitempty"`
-	SubscriptionCounts SubscriptionCounts `json:"subscription_counts,omitempty"`
+	Name                string             `json:"name,omitempty"`
+	Amount              int                `json:"amount,omitempty"`
+	Currency            string             `json:"currency,omitempty"`
+	SetupAmount         int                `json:"setup_amount,omitempty"`
+	TrialAmount         int                `json:"trial_amount,omitempty"`
+	Interval            int                `json:"interval,omitempty"`
+	IntervalUnit        string             `json:"interval_unit,omitempty"`
+	Intervals           int                `json:"intervals,omitempty"`
+	TrialInterval       int                `json:"trial_interval,omitempty"`
+	TrialIntervalUnit   string             `json:"trial_interval_unit,omitempty"`
+	CreatedAt           time.Time          `json:"created_at,omitempty"`
+	Token               string             `json:"token,omitempty"`
+	CustomerPermissions []string           `json:"customer_permissions,omitempty"`
+	SubscriptionCounts  SubscriptionCounts `json:"subscription_counts,omitempty"`
 }
 
 type SubscriptionCounts struct {
-	Trial int `json:"trial,omitempty"`
-	Active int `json:"active,omitempty"`
+	Trial      int `json:"trial,omitempty"`
+	Active     int `json:"active,omitempty"`
 	Cancelling int `json:"cancelling,omitempty"`
-	Cancelled int `json:"cancelled,omitempty"`
+	Cancelled  int `json:"cancelled,omitempty"`
 }
 
 type PlanResponse struct {
@@ -38,7 +38,7 @@ type PlanResponse struct {
 }
 
 type PlansResponse struct {
-	Response []Plan `json:"response,omitempty"`
+	Response   []Plan `json:"response,omitempty"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`

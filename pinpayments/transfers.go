@@ -11,18 +11,18 @@ import (
 type TransfersService service
 
 type Transfer struct {
-	Token string `json:"token,omitempty"`
-	Status string `json:"status,omitempty"`
-	Currency    string `json:"currency,omitempty"`
-	Description string `json:"description,omitempty"`
-	Amount      int    `json:"amount,omitempty"`
-	TotalDebits int `json:"total_debits,omitempty"`
-	TotalCredits int `json:"total_credits,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	PaidAt time.Time `json:"paid_at,omitempty"`
-	LineItemsCount int `json:"line_items_count,omitempty"`
-	BankAccount BankAccount `json:"bank_account,omitempty"`
-	Recipient   string `json:"recipient,omitempty"`
+	Token          string      `json:"token,omitempty"`
+	Status         string      `json:"status,omitempty"`
+	Currency       string      `json:"currency,omitempty"`
+	Description    string      `json:"description,omitempty"`
+	Amount         int         `json:"amount,omitempty"`
+	TotalDebits    int         `json:"total_debits,omitempty"`
+	TotalCredits   int         `json:"total_credits,omitempty"`
+	CreatedAt      time.Time   `json:"created_at,omitempty"`
+	PaidAt         time.Time   `json:"paid_at,omitempty"`
+	LineItemsCount int         `json:"line_items_count,omitempty"`
+	BankAccount    BankAccount `json:"bank_account,omitempty"`
+	Recipient      string      `json:"recipient,omitempty"`
 }
 
 type TransferResponse struct {
@@ -30,8 +30,8 @@ type TransferResponse struct {
 }
 
 type TransfersResponse struct {
-	Response []Transfer `json:"response,omitempty"`
-	Count      int         `json:"count"`
+	Response   []Transfer `json:"response,omitempty"`
+	Count      int        `json:"count"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`
@@ -43,25 +43,25 @@ type TransfersResponse struct {
 }
 
 type LineItem struct {
-	Type string `json:"type,omitempty"`
-	Amount int `json:"amount,omitempty"`
-	Currency string `json:"currency,omitempty"`
+	Type      string    `json:"type,omitempty"`
+	Amount    int       `json:"amount,omitempty"`
+	Currency  string    `json:"currency,omitempty"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
-	Object string `json:"object,omitempty"`
-	Token string `json:"token,omitempty"`
-	Record Record `json:"record,omitempty"`
+	Object    string    `json:"object,omitempty"`
+	Token     string    `json:"token,omitempty"`
+	Record    Record    `json:"record,omitempty"`
 }
 
 type Record struct {
-	Type string `json:"type,omitempty"`
-	Amount int `json:"amount,omitempty"`
-	Currency string `json:"currency,omitempty"`
+	Type      string    `json:"type,omitempty"`
+	Amount    int       `json:"amount,omitempty"`
+	Currency  string    `json:"currency,omitempty"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
 }
 
 type LineItemsResponse struct {
-	Response []LineItem `json:"response,omitempty"`
-	Count      int         `json:"count"`
+	Response   []LineItem `json:"response,omitempty"`
+	Count      int        `json:"count"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`

@@ -29,7 +29,7 @@ type Card struct {
 }
 
 type CardCreatedResponse struct {
-	Response Card `json:"response,omitempty"`
+	Response  Card   `json:"response,omitempty"`
 	IpAddress net.IP `json:"ip_address,omitempty"`
 }
 

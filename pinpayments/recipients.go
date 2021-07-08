@@ -87,7 +87,7 @@ func (rs *RecipientsService) Get(token string) (rr *RecipientResponse, err error
 	return
 }
 
-func(rs *RecipientsService) Update(recipient *Recipient) (rr *RecipientResponse, err error) {
+func (rs *RecipientsService) Update(recipient *Recipient) (rr *RecipientResponse, err error) {
 	u := fmt.Sprintf("recipients/%s", recipient.Token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodPut, u, recipient)
 	if err != nil {

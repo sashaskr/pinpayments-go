@@ -69,13 +69,13 @@ type CardCreationResponse struct {
 }
 
 type CardCreationRequest struct {
-	Card Card
+	Card          Card
 	CustomerToken string
 }
 
 type CardDeletionRequest struct {
 	CustomerToken string
-	CardToken string
+	CardToken     string
 }
 
 func (cs *CustomersService) Create(customer *CustomerRequest) (cr *CustomerResponse, err error) {
@@ -239,7 +239,7 @@ func (cs *CustomersService) DeleteCard(cardDeletion *CardDeletionRequest) (bool 
 }
 
 func (cs *CustomersService) GetSubscriptions(token string) (csub *SubscriptionsResponse, err error) {
-	u := fmt.Sprintf("customers/%s/subscriptions",token)
+	u := fmt.Sprintf("customers/%s/subscriptions", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
 		panic(err)

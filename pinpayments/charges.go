@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type ChagresService service
+type ChargesService service
 
 type Resp struct {
 	Resp interface{} `json:"response"`
@@ -84,7 +84,7 @@ type Search struct {
 	Direction int       `url:"direction,omitempty"`
 }
 
-func (cs *ChagresService) CreateCharge(charge *ChargesRequest) (cr *ChargeResponse, err error) {
+func (cs *ChargesService) CreateCharge(charge *ChargesRequest) (cr *ChargeResponse, err error) {
 	req, err := cs.client.NewAPIRequest(true, http.MethodPost, "charges", charge)
 	if err != nil {
 		panic(err)
@@ -101,7 +101,7 @@ func (cs *ChagresService) CreateCharge(charge *ChargesRequest) (cr *ChargeRespon
 	return
 }
 
-func (cs *ChagresService) VoidCharge(token string) (cr *ChargeResponse, err error) {
+func (cs *ChargesService) VoidCharge(token string) (cr *ChargeResponse, err error) {
 	u := fmt.Sprintf("charges/%s/void", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
@@ -119,7 +119,7 @@ func (cs *ChagresService) VoidCharge(token string) (cr *ChargeResponse, err erro
 	return
 }
 
-func (cs *ChagresService) CaptureCharge(token string) (cr *ChargeResponse, err error) {
+func (cs *ChargesService) CaptureCharge(token string) (cr *ChargeResponse, err error) {
 	u := fmt.Sprintf("charges/%s/capture", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
@@ -137,7 +137,7 @@ func (cs *ChagresService) CaptureCharge(token string) (cr *ChargeResponse, err e
 	return
 }
 
-func (cs *ChagresService) Get(token string) (cr *ChargeResponse, err error) {
+func (cs *ChargesService) Get(token string) (cr *ChargeResponse, err error) {
 	u := fmt.Sprintf("charges/%s", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
@@ -155,7 +155,7 @@ func (cs *ChagresService) Get(token string) (cr *ChargeResponse, err error) {
 	return
 }
 
-func (cs *ChagresService) GetAll() (cr *ChargesResponse, err error) {
+func (cs *ChargesService) GetAll() (cr *ChargesResponse, err error) {
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, "charges", nil)
 	//TODO: Add pagination here
 	if err != nil {
@@ -173,7 +173,7 @@ func (cs *ChagresService) GetAll() (cr *ChargesResponse, err error) {
 	return
 }
 
-func (cs *ChagresService) Search(search Search) (cr *ChargesResponse, err error) {
+func (cs *ChargesService) Search(search Search) (cr *ChargesResponse, err error) {
 	v, err := query.Values(search)
 	if err != nil {
 		panic(err)

@@ -18,8 +18,8 @@ type BankAccount struct {
 }
 
 type BankAccountResponse struct {
-	Response BankAccount `json:"response,omitempty"`
-	IpAddress net.IP `json:"ip_address,omitempty"`
+	Response  BankAccount `json:"response,omitempty"`
+	IpAddress net.IP      `json:"ip_address,omitempty"`
 }
 
 func (bas *BankAccountService) Create(bankAccount *BankAccount) (bar *BankAccountResponse, err error) {

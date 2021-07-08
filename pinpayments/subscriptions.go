@@ -27,8 +27,8 @@ type SubscriptionResponse struct {
 }
 
 type SubscriptionsResponse struct {
-	Response []Subscription `json:"response,omitempty"`
-	Count      int                    `json:"count"`
+	Response   []Subscription `json:"response,omitempty"`
+	Count      int            `json:"count"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`
@@ -40,8 +40,8 @@ type SubscriptionsResponse struct {
 }
 
 type LedgerResponse struct {
-	Response []Ledger `json:"response,omitempty"`
-	Count      int                    `json:"count"`
+	Response   []Ledger `json:"response,omitempty"`
+	Count      int      `json:"count"`
 	Pagination struct {
 		Current  int `json:"current"`
 		Previous int `json:"previous"`
@@ -53,11 +53,11 @@ type LedgerResponse struct {
 }
 
 type Ledger struct {
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	Type string `json:"type,omitempty"`
-	Amount int `json:"amount,omitempty"`
-	Currency string `json:"currency,omitempty"`
-	Annotation string `json:"annotation,omitempty"`
+	CreatedAt  time.Time `json:"created_at,omitempty"`
+	Type       string    `json:"type,omitempty"`
+	Amount     int       `json:"amount,omitempty"`
+	Currency   string    `json:"currency,omitempty"`
+	Annotation string    `json:"annotation,omitempty"`
 }
 
 func (ss *SubscriptionService) Create(subscription *Subscription) (sr *SubscriptionResponse, err error) {
@@ -76,7 +76,6 @@ func (ss *SubscriptionService) Create(subscription *Subscription) (sr *Subscript
 	}
 	return
 }
-
 
 func (ss *SubscriptionService) GetAll() (sr *SubscriptionsResponse, err error) {
 	req, err := ss.client.NewAPIRequest(true, http.MethodGet, "subscriptions", nil)
