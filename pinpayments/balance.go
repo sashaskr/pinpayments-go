@@ -21,6 +21,9 @@ type BalancesResponse struct {
 	Response Balances `json:"response,omitempty"`
 }
 
+// GetBalance Get retrieve a balance records
+//
+// See https://pinpayments.com/developers/api-reference/balance
 func (bc *BalanceService) GetBalance() (br *BalancesResponse, err error) {
 	req, err := bc.client.NewAPIRequest(true, http.MethodGet, "balance", nil)
 	if err != nil {
