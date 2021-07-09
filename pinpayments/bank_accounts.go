@@ -22,6 +22,9 @@ type BankAccountResponse struct {
 	IpAddress net.IP      `json:"ip_address,omitempty"`
 }
 
+// Create Creates a bank account record
+//
+// See https://pinpayments.com/developers/api-reference/bank-accounts
 func (bas *BankAccountService) Create(bankAccount *BankAccount) (bar *BankAccountResponse, err error) {
 	req, err := bas.client.NewAPIRequest(true, http.MethodPost, "bank_accounts", bankAccount)
 	if err != nil {
