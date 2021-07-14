@@ -33,6 +33,9 @@ type CardCreatedResponse struct {
 	IpAddress net.IP `json:"ip_address,omitempty"`
 }
 
+// Create creates a card record
+//
+// See https://pinpayments.com/developers/api-reference/cards
 func (cs *CardsService) Create(card *Card) (cr *CardCreatedResponse, err error) {
 	req, err := cs.client.NewAPIRequest(true, http.MethodPost, "cards", card)
 	if err != nil {
