@@ -85,6 +85,9 @@ type Search struct {
 	Direction int       `url:"direction,omitempty"`
 }
 
+// CreateCharge creates the charge with *ChargesRequest and returns *ChargeResponse or error
+//
+// See https://pinpayments.com/developers/api-reference/charges
 func (cs *ChargesService) CreateCharge(charge *ChargesRequest) (cr *ChargeResponse, err error) {
 	req, err := cs.client.NewAPIRequest(true, http.MethodPost, "charges", charge)
 	if err != nil {
