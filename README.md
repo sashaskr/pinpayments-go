@@ -39,6 +39,6 @@ Each of the services has methods, covered all declared API provied by Pinpayment
 You can ask me a questions via [https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a][https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a]
 
 Enjoy!
-v1.0.0
+v1.0.1
 
 [https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a]: https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a
