@@ -6,7 +6,7 @@ First, you need to create a config:
 ```go
 config := pinpayments.NewConfig(true, YOUR_SECRET_KEY_HERE, YOUR_PUBLISHABLE_KEY_HERE)
 ```
-The first argument `true|false` is indicated `live|test` mode of your API
+The first argument `false|true` is indicated `live|test` mode of your API
 
 Then you need to create a client:
 ```go
