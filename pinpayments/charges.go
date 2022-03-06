@@ -196,3 +196,21 @@ func (cs *ChargesService) Search(search Search) (cr *ChargesResponse, err error)
 	}
 	return
 }
+
+func (cs *ChargesService) Verify(token string) (cr *ChargeResponse, err error) {
+	u := fmt.Sprintf("charges/verify?session_token=%s", token)
+	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := cs.client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(res.content, &cr); err != nil {
+		return
+	}
+	return
+}
