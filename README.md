@@ -1,6 +1,9 @@
-[![CodeFactor](https://www.codefactor.io/repository/github/sashaskr/pinpayments-go/badge)](https://www.codefactor.io/repository/github/sashaskr/pinpayments-go)
-# PinPayment
-Golang fully functional client to the http://pinpayments.com/ API.
+[![CodeFactor](https://www.codefactor.io/repository/github/rareplanet1/pinpayments-go/badge)](https://www.codefactor.io/repository/github/rareplanet1/pinpayments-go)
+# Pin Payments
+Golang client to the http://pinpayments.com/ API. 
+
+Forked from [https://github.com/sashaskr/pinpayments-go][https://github.com/sashaskr/pinpayments-go], which appears unmaintained, and with the intention of fixing any outstanding issues and adding new functionality provided by Pin Payments since.
+
 ## How to use
 First, you need to create a config:
 ```go
@@ -17,7 +20,7 @@ client, err := pinpayments.NewClient(nil, config)
 ```
 The first argument is the http client you are going to use. If set as `nil`, it means client is going to use default go http client. You can use your own
 
-Since the client is created, you can access to the services:
+After the client is created, you can access to the services currently supported by this API:
 ```go
 client.Charges
 client.Customers
@@ -32,13 +35,7 @@ client.WebhookEndpoints
 client.Webhooks
 client.Plans
 client.Subscription
-client.Merchant //Currently BETA and you have to contact with pinpayments
+client.Merchant //Currently BETA and you have to contact Pin Payments
 ```
-Each of the services has methods, covered all declared API provied by Pinpayments. Each method returns the unmarshalled struct, so you can use it in your business logic
+Each of the services has methods, covered all declared API provied by Pin Payments. Each method returns the unmarshalled struct, so you can use it in your business logic
 
-You can ask me a questions via [https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a][https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a]
-
-Enjoy!
-v1.0.1
-
-[https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a]: https://github.com/sashaskr/pinpayments-go/discussions/categories/q-a
