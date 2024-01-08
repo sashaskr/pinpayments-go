@@ -1,5 +1,5 @@
-module github.com/sashaskr/pinpayments-go
+module github.com/rareplanet1/pinpayments-go
 
-go 1.16
+go 1.21
 
 require github.com/google/go-querystring v1.1.0

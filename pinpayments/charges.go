@@ -3,9 +3,10 @@ package pinpayments
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/google/go-querystring/query"
 	"net/http"
 	"time"
+
+	"github.com/google/go-querystring/query"
 )
 
 type ChargesService service
@@ -23,7 +24,7 @@ type ChargesRequest struct {
 	Capture       bool         `json:"capture,omitempty"`
 	Metadata      Metadata     `json:"metadata,omitempty"`
 	ThreeDSecure  ThreeDSecure `json:"three_d_secure,omitempty"`
-	Card          Card         `json:"card,omitempty"`
+	Card          *Card        `json:"card,omitempty"`
 	CardToken     string       `json:"card_token,omitempty"`
 	CustomerToken string       `json:"customer_token,omitempty"`
 }
