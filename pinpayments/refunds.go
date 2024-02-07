@@ -46,12 +46,12 @@ func (rs *RefundsService) GetAll(page int) (rr *RefundsResponse, err error) {
 	rs.client.SetPage(page)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, "refunds", nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -64,12 +64,12 @@ func (rs *RefundsService) Get(token string) (rr *RefundResponse, err error) {
 	u := fmt.Sprintf("refunds/%s", token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -82,12 +82,12 @@ func (rs *RefundsService) Create(refundRequest *RefundRequest) (rr *RefundRespon
 	u := fmt.Sprintf("charges/%s/refunds", refundRequest.ChargeToken)
 	req, err := rs.client.NewAPIRequest(true, http.MethodPost, u, refundRequest)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -101,12 +101,12 @@ func (rs *RefundsService) GetRefundsForCharge(token string, page int) (rr *Refun
 	u := fmt.Sprintf("charges/%s/refunds", token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {

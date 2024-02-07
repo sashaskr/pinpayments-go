@@ -39,12 +39,12 @@ func (es *EventsService) GetAll(page int) (er *EventsResponse, err error) {
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, "events", nil)
 
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {
@@ -57,12 +57,12 @@ func (es *EventsService) Get(token string) (er *EventResponse, err error) {
 	u := fmt.Sprintf("events/%s", token)
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {

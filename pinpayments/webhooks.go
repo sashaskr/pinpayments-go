@@ -43,12 +43,12 @@ func (ws *WebhooksService) GetAll(page int) (wr *WebhooksResponse, err error) {
 	ws.client.SetPage(page)
 	req, err := ws.client.NewAPIRequest(true, http.MethodGet, "webhooks", nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := ws.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &wr); err != nil {
@@ -61,12 +61,12 @@ func (es *WebhooksService) Get(token string) (er *WebhookResponse, err error) {
 	u := fmt.Sprintf("webhooks/%s", token)
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {
@@ -79,12 +79,12 @@ func (es *WebhooksService) Replay(token string) (er *WebhookResponse, err error)
 	u := fmt.Sprintf("webhooks/%s/replay", token)
 	req, err := es.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {

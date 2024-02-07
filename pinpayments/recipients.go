@@ -38,12 +38,12 @@ type RecipientsResponse struct {
 func (rs *RecipientsService) Create(recipient *Recipient) (rr *RecipientResponse, err error) {
 	req, err := rs.client.NewAPIRequest(true, http.MethodPost, "recipients", recipient)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -52,16 +52,16 @@ func (rs *RecipientsService) Create(recipient *Recipient) (rr *RecipientResponse
 	return
 }
 
-func (rs *RecipientsService) GetAll(page int) (rr RecipientsResponse, err error) {
+func (rs *RecipientsService) GetAll(page int) (rr *RecipientsResponse, err error) {
 	rs.client.SetPage(page)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, "recipients", nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -74,12 +74,12 @@ func (rs *RecipientsService) Get(token string) (rr *RecipientResponse, err error
 	u := fmt.Sprintf("recipients/%s", token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -92,12 +92,12 @@ func (rs *RecipientsService) Update(recipient *Recipient) (rr *RecipientResponse
 	u := fmt.Sprintf("recipients/%s", recipient.Token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodPut, u, recipient)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -110,12 +110,12 @@ func (rs *RecipientsService) GetTransfers(token string) (tr *TransfersResponse, 
 	u := fmt.Sprintf("recipients/%s/transfers", token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &tr); err != nil {

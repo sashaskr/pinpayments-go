@@ -22,6 +22,7 @@ type ChargesRequest struct {
 	IpAddress     string       `json:"ip_address"`
 	Currency      string       `json:"currency,omitempty"`
 	Capture       bool         `json:"capture,omitempty"`
+	Reference     string       `json:"reference,omitempty"`
 	Metadata      Metadata     `json:"metadata,omitempty"`
 	ThreeDSecure  ThreeDSecure `json:"three_d_secure,omitempty"`
 	Card          *Card        `json:"card,omitempty"`
@@ -63,11 +64,11 @@ type ChargesResponse struct {
 }
 
 type Metadata struct {
-	OrderNumber        string    `json:"OrderNumber,omitempty"`
-	CustomerName       string    `json:"CustomerName,omitempty"`
-	OrderTakenBy       string    `json:"order taken by,omitempty"`
-	Location           string    `json:"Location,omitempty"`
-	TimeOrderCompleted time.Time `json:"time_order_completed,omitempty"`
+	OrderNumber        string     `json:"order_number,omitempty"`
+	CustomerName       string     `json:"customer_name,omitempty"`
+	OrderTakenBy       string     `json:"order_taken_by,omitempty"`
+	Location           string     `json:"location,omitempty"`
+	TimeOrderCompleted *time.Time `json:"time_order_completed,omitempty"`
 }
 
 type ThreeDSecure struct {
@@ -89,12 +90,12 @@ type Search struct {
 func (cs *ChargesService) CreateCharge(charge *ChargesRequest) (cr *ChargeResponse, err error) {
 	req, err := cs.client.NewAPIRequest(true, http.MethodPost, "charges", charge)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -107,12 +108,12 @@ func (cs *ChargesService) VoidCharge(token string) (cr *ChargeResponse, err erro
 	u := fmt.Sprintf("charges/%s/void", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -125,12 +126,12 @@ func (cs *ChargesService) CaptureCharge(token string) (cr *ChargeResponse, err e
 	u := fmt.Sprintf("charges/%s/capture", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -143,12 +144,12 @@ func (cs *ChargesService) Get(token string) (cr *ChargeResponse, err error) {
 	u := fmt.Sprintf("charges/%s", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -161,12 +162,12 @@ func (cs *ChargesService) GetAll(page int) (cr *ChargesResponse, err error) {
 	cs.client.SetPage(page)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, "charges", nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -179,17 +180,17 @@ func (cs *ChargesService) Search(search Search) (cr *ChargesResponse, err error)
 	cs.client.SetPage(search.Page)
 	v, err := query.Values(search)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	u := fmt.Sprintf("charges/search/?%s", v.Encode())
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {

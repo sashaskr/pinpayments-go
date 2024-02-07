@@ -153,12 +153,12 @@ type Fee struct {
 func (ms *MerchantsService) Create(merchant *Merchant) (mr *MerchantResponse, err error) {
 	req, err := ms.client.NewAPIRequest(true, http.MethodPost, "merchants", merchant)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := ms.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &mr); err != nil {
@@ -171,7 +171,7 @@ func (ms *MerchantsService) GetAll(page int) (mr *MerchantsResponse, err error) 
 	ms.client.SetPage(page)
 	req, err := ms.client.NewAPIRequest(true, http.MethodGet, "merchants", nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := ms.client.Do(req)
@@ -189,12 +189,12 @@ func (ms *MerchantsService) Get(token string) (mr *MerchantFullResponse, err err
 	u := fmt.Sprintf("merchants/%s", token)
 	req, err := ms.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := ms.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &mr); err != nil {
@@ -206,12 +206,12 @@ func (ms *MerchantsService) Get(token string) (mr *MerchantFullResponse, err err
 func (ms *MerchantsService) GetDefault(token string) (mr *MerchantFullResponse, err error) {
 	req, err := ms.client.NewAPIRequest(true, http.MethodGet, "merchants/default_settings", nil)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := ms.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &mr); err != nil {

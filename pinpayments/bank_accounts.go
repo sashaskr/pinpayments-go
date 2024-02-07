@@ -25,12 +25,12 @@ type BankAccountResponse struct {
 func (bas *BankAccountService) Create(bankAccount *BankAccount) (bar *BankAccountResponse, err error) {
 	req, err := bas.client.NewAPIRequest(true, http.MethodPost, "bank_accounts", bankAccount)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	res, err := bas.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	if err = json.Unmarshal(res.content, &bar); err != nil {
