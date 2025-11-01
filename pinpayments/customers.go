@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type CustomersService service
@@ -81,12 +83,12 @@ type CardDeletionRequest struct {
 func (cs *CustomersService) Create(customer *CustomerRequest) (cr *CustomerResponse, err error) {
 	req, err := cs.client.NewAPIRequest(true, http.MethodPost, "customers", customer)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error creating customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error creating customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -99,12 +101,12 @@ func (cs *CustomersService) GetAll(page int) (cr *CustomersResponse, err error) 
 	cs.client.SetPage(page)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, "customers", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get all customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get all customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -117,12 +119,12 @@ func (cs *CustomersService) Get(token string) (cr *CustomerResponse, err error) 
 	u := fmt.Sprintf("customers/%s", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -135,12 +137,12 @@ func (cs *CustomersService) Update(customerUpdated *CustomerRequest) (cr *Custom
 	u := fmt.Sprintf("customers/%s", customerUpdated.Token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPut, u, customerUpdated)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error update customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error update customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -153,15 +155,15 @@ func (cs *CustomersService) Delete(token string) (bool bool, err error) {
 	u := fmt.Sprintf("customers/%s", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodDelete, u, nil)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "error delete customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "error delete customer response")
 	}
 	if res.StatusCode != 204 {
-		panic("user not found")
+		return false, errors.New("customer not found")
 	}
 
 	return true, nil
@@ -171,12 +173,12 @@ func (cs *CustomersService) GetCharges(token string) (cr *ChargesResponse, err e
 	u := fmt.Sprintf("customers/%s/charges", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get charges customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get charges customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -189,12 +191,12 @@ func (cs *CustomersService) GetCards(token string) (cr *CardsResponse, err error
 	u := fmt.Sprintf("customers/%s/cards", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get cards customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get cards customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -207,12 +209,12 @@ func (cs *CustomersService) AddCard(cardRequest *CardCreationRequest) (cr *CardC
 	u := fmt.Sprintf("customers/%s/cards", cardRequest.CustomerToken)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPost, u, cardRequest.Card)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error add card request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error add card customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -225,15 +227,15 @@ func (cs *CustomersService) DeleteCard(cardDeletion *CardDeletionRequest) (bool 
 	u := fmt.Sprintf("customers/%s/cards/%s", cardDeletion.CustomerToken, cardDeletion.CardToken)
 	req, err := cs.client.NewAPIRequest(true, http.MethodDelete, u, nil)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "error delete card request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "error delete card response")
 	}
 	if res.StatusCode != 204 {
-		panic("user not found")
+		return false, errors.New("not found")
 	}
 
 	return true, nil
@@ -243,12 +245,12 @@ func (cs *CustomersService) GetSubscriptions(token string) (csub *SubscriptionsR
 	u := fmt.Sprintf("customers/%s/subscriptions", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get subscriptions customer request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error get subscriptions customer response")
 	}
 
 	if err = json.Unmarshal(res.content, &csub); err != nil {

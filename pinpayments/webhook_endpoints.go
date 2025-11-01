@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type WebhookEndpointsService service
@@ -37,16 +39,16 @@ type EndpointsResponse struct {
 func (es *WebhookEndpointsService) Create(endpoint *Endpoint) (er *EndpointResponse, err error) {
 	req, err := es.client.NewAPIRequest(true, http.MethodPost, "webhook_endpoints", endpoint)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "creating webhook endpoint request")
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending webhook endpoint response")
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {
-		return
+		return nil, errors.Wrap(err, "unmarshalling webhook endpoint response")
 	}
 	return
 }
@@ -55,16 +57,16 @@ func (es *WebhookEndpointsService) GetAll(page int) (er *EndpointsResponse, err 
 	es.client.SetPage(page)
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, "webhook_endpoints", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting all webhook endpoints request")
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending webhook endpoints response")
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {
-		return
+		return nil, errors.Wrap(err, "unmarshalling webhook endpoints response")
 	}
 	return
 }
@@ -73,16 +75,16 @@ func (es *WebhookEndpointsService) Get(token string) (er *EndpointResponse, err 
 	u := fmt.Sprintf("webhook_endpoints/%s", token)
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting webhook endpoint request")
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting webhook endpoint response")
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {
-		return
+		return nil, errors.Wrap(err, "unmarshalling webhook endpoint response")
 	}
 	return
 }
@@ -91,15 +93,15 @@ func (es *WebhookEndpointsService) Delete(token string) (er bool, err error) {
 	u := fmt.Sprintf("webhook_endpoints/%s", token)
 	req, err := es.client.NewAPIRequest(true, http.MethodDelete, u, nil)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "deleting webhook endpoint request")
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "sending webhook endpoint response")
 	}
 	if res.StatusCode != 204 {
-		panic("user not found")
+		return false, errors.New("not found")
 	}
 
 	return true, nil

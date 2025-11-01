@@ -3,9 +3,11 @@ package pinpayments
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/google/go-querystring/query"
 	"net/http"
 	"time"
+
+	"github.com/google/go-querystring/query"
+	"github.com/pkg/errors"
 )
 
 type ChargesService service
@@ -88,12 +90,12 @@ type Search struct {
 func (cs *ChargesService) CreateCharge(charge *ChargesRequest) (cr *ChargeResponse, err error) {
 	req, err := cs.client.NewAPIRequest(true, http.MethodPost, "charges", charge)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error creating charge request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error creating charge response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -106,12 +108,12 @@ func (cs *ChargesService) VoidCharge(token string) (cr *ChargeResponse, err erro
 	u := fmt.Sprintf("charges/%s/void", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error voiding charge request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error voiding charge response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -124,12 +126,12 @@ func (cs *ChargesService) CaptureCharge(token string) (cr *ChargeResponse, err e
 	u := fmt.Sprintf("charges/%s/capture", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error capturing charge request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error capturing charge response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -142,12 +144,12 @@ func (cs *ChargesService) Get(token string) (cr *ChargeResponse, err error) {
 	u := fmt.Sprintf("charges/%s", token)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error getting charge request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error getting charge response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -160,12 +162,12 @@ func (cs *ChargesService) GetAll(page int) (cr *ChargesResponse, err error) {
 	cs.client.SetPage(page)
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, "charges", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error getting all charges")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error getting all charges")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {
@@ -178,17 +180,17 @@ func (cs *ChargesService) Search(search Search) (cr *ChargesResponse, err error)
 	cs.client.SetPage(search.Page)
 	v, err := query.Values(search)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error parsing search query")
 	}
 	u := fmt.Sprintf("charges/search/?%s", v.Encode())
 	req, err := cs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error search request")
 	}
 
 	res, err := cs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error search response")
 	}
 
 	if err = json.Unmarshal(res.content, &cr); err != nil {

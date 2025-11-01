@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type WebhooksService service
@@ -43,16 +45,16 @@ func (ws *WebhooksService) GetAll(page int) (wr *WebhooksResponse, err error) {
 	ws.client.SetPage(page)
 	req, err := ws.client.NewAPIRequest(true, http.MethodGet, "webhooks", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting all webhooks request")
 	}
 
 	res, err := ws.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting all webhooks response")
 	}
 
 	if err = json.Unmarshal(res.content, &wr); err != nil {
-		return
+		return nil, errors.Wrap(err, "unmarshalling get all webhooks response")
 	}
 	return
 }
@@ -61,16 +63,16 @@ func (es *WebhooksService) Get(token string) (er *WebhookResponse, err error) {
 	u := fmt.Sprintf("webhooks/%s", token)
 	req, err := es.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting webhook request")
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting webhook response")
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {
-		return
+		return nil, errors.Wrap(err, "unmarshalling webhook response")
 	}
 	return
 }
@@ -79,16 +81,16 @@ func (es *WebhooksService) Replay(token string) (er *WebhookResponse, err error)
 	u := fmt.Sprintf("webhooks/%s/replay", token)
 	req, err := es.client.NewAPIRequest(true, http.MethodPut, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "replaying webhook request")
 	}
 
 	res, err := es.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "replaying webhook response")
 	}
 
 	if err = json.Unmarshal(res.content, &er); err != nil {
-		return
+		return nil, errors.Wrap(err, "unmarshalling replay response")
 	}
 	return
 }
