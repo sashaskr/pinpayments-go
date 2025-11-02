@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type RefundsService service
@@ -64,12 +66,12 @@ func (rs *RefundsService) Get(token string) (rr *RefundResponse, err error) {
 	u := fmt.Sprintf("refunds/%s", token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting refund request")
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting refund response")
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -82,12 +84,12 @@ func (rs *RefundsService) Create(refundRequest *RefundRequest) (rr *RefundRespon
 	u := fmt.Sprintf("charges/%s/refunds", refundRequest.ChargeToken)
 	req, err := rs.client.NewAPIRequest(true, http.MethodPost, u, refundRequest)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "creating refund request")
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "creating refund response")
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {
@@ -101,12 +103,12 @@ func (rs *RefundsService) GetRefundsForCharge(token string, page int) (rr *Refun
 	u := fmt.Sprintf("charges/%s/refunds", token)
 	req, err := rs.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting refund for charge request")
 	}
 
 	res, err := rs.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting refund for charge response")
 	}
 
 	if err = json.Unmarshal(res.content, &rr); err != nil {

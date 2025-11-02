@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type SubscriptionService service
@@ -63,12 +65,12 @@ type Ledger struct {
 func (ss *SubscriptionService) Create(subscription *Subscription) (sr *SubscriptionResponse, err error) {
 	req, err := ss.client.NewAPIRequest(true, http.MethodPost, "subscriptions", subscription)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "creating subscription request")
 	}
 
 	res, err := ss.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending subscription response")
 	}
 
 	if err = json.Unmarshal(res.content, &sr); err != nil {
@@ -81,12 +83,12 @@ func (ss *SubscriptionService) GetAll(page int) (sr *SubscriptionsResponse, err 
 	ss.client.SetPage(page)
 	req, err := ss.client.NewAPIRequest(true, http.MethodGet, "subscriptions", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting all subscriptions request")
 	}
 
 	res, err := ss.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting all subscriptions response")
 	}
 
 	if err = json.Unmarshal(res.content, &sr); err != nil {
@@ -99,12 +101,12 @@ func (ss *SubscriptionService) Get(token string) (sr *SubscriptionResponse, err 
 	u := fmt.Sprintf("subscriptions/%s", token)
 	req, err := ss.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting subscription request")
 	}
 
 	res, err := ss.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting subscription response")
 	}
 
 	if err = json.Unmarshal(res.content, &sr); err != nil {
@@ -117,12 +119,12 @@ func (ss *SubscriptionService) Update(subscription *Subscription) (sr *Subscript
 	u := fmt.Sprintf("subscriptions/%s", subscription.Token)
 	req, err := ss.client.NewAPIRequest(true, http.MethodPut, u, subscription)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "updating subscription request")
 	}
 
 	res, err := ss.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "updating subscription response")
 	}
 
 	if err = json.Unmarshal(res.content, &sr); err != nil {
@@ -135,15 +137,16 @@ func (ss *SubscriptionService) Delete(token string) (pr bool, err error) {
 	u := fmt.Sprintf("subscriptions/%s", token)
 	req, err := ss.client.NewAPIRequest(true, http.MethodDelete, u, nil)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "deleting subscription request")
 	}
 
 	res, err := ss.client.Do(req)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "deleting subscription response")
 	}
+
 	if res.StatusCode != 204 {
-		panic("subscription not found")
+		return false, errors.New("subscription not found")
 	}
 
 	return true, nil
@@ -153,12 +156,12 @@ func (ss *SubscriptionService) ReactivateSubscription(subscription *Subscription
 	u := fmt.Sprintf("subscriptions/%s/reactivate", subscription.Token)
 	req, err := ss.client.NewAPIRequest(true, http.MethodPut, u, subscription)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "reactivating subscription request")
 	}
 
 	res, err := ss.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "reactivating subscription response")
 	}
 
 	if err = json.Unmarshal(res.content, &sr); err != nil {
@@ -171,12 +174,12 @@ func (ss *SubscriptionService) GetLedger(token string) (lr *LedgerResponse, err 
 	u := fmt.Sprintf("subscriptions/%s/ledger", token)
 	req, err := ss.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting ledger subscription request")
 	}
 
 	res, err := ss.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting ledger subscription response")
 	}
 
 	if err = json.Unmarshal(res.content, &lr); err != nil {

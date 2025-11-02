@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type PlansService service
@@ -52,12 +54,12 @@ type PlansResponse struct {
 func (ps *PlansService) Create(plan *Plan) (pr *PlanResponse, err error) {
 	req, err := ps.client.NewAPIRequest(true, http.MethodPost, "plans", plan)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "building request")
 	}
 
 	res, err := ps.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending request")
 	}
 
 	if err = json.Unmarshal(res.content, &pr); err != nil {
@@ -70,12 +72,12 @@ func (ps *PlansService) GetAll(page int) (pr *PlansResponse, err error) {
 	ps.client.SetPage(page)
 	req, err := ps.client.NewAPIRequest(true, http.MethodGet, "plans", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "building request")
 	}
 
 	res, err := ps.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending request")
 	}
 
 	if err = json.Unmarshal(res.content, &pr); err != nil {
@@ -88,12 +90,12 @@ func (ps *PlansService) Get(token string) (pr *PlanResponse, err error) {
 	u := fmt.Sprintf("plans/%s", token)
 	req, err := ps.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "building request")
 	}
 
 	res, err := ps.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending request")
 	}
 
 	if err = json.Unmarshal(res.content, &pr); err != nil {
@@ -106,12 +108,12 @@ func (ps *PlansService) Update(plan *Plan) (pr *PlanResponse, err error) {
 	u := fmt.Sprintf("plans/%s", plan.Token)
 	req, err := ps.client.NewAPIRequest(true, http.MethodPut, u, plan)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "building request")
 	}
 
 	res, err := ps.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending request")
 	}
 
 	if err = json.Unmarshal(res.content, &pr); err != nil {
@@ -124,15 +126,15 @@ func (ps *PlansService) Delete(token string) (pr bool, err error) {
 	u := fmt.Sprintf("plans/%s", token)
 	req, err := ps.client.NewAPIRequest(true, http.MethodDelete, u, nil)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "building request")
 	}
 
 	res, err := ps.client.Do(req)
 	if err != nil {
-		panic(err)
+		return false, errors.Wrap(err, "sending request")
 	}
 	if res.StatusCode != 204 {
-		panic("plan not found")
+		return false, errors.Wrap(fmt.Errorf("unexpected status code: %d", res.StatusCode), "sending request")
 	}
 
 	return true, nil
@@ -142,12 +144,12 @@ func (ps *PlansService) CreatePlanSubscription(subscription *Subscription) (sr *
 	u := fmt.Sprintf("plans/%s/subscriptions", subscription.PlanToken)
 	req, err := ps.client.NewAPIRequest(true, http.MethodPost, u, subscription)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "building request")
 	}
 
 	res, err := ps.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending request")
 	}
 
 	if err = json.Unmarshal(res.content, &sr); err != nil {
@@ -160,12 +162,12 @@ func (ps *PlansService) GetPlanSubscriptions(token string) (sr *SubscriptionsRes
 	u := fmt.Sprintf("plans/%s/subscriptions", token)
 	req, err := ps.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "building request")
 	}
 
 	res, err := ps.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "sending request")
 	}
 
 	if err = json.Unmarshal(res.content, &sr); err != nil {

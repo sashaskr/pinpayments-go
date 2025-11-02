@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/pkg/errors"
 )
 
 type Response struct {
@@ -23,7 +25,7 @@ func (c *Client) NewAPIRequest(secret bool, method string, uri string, body inte
 
 	u, err := c.BaseURL.Parse(uri)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "parsing url")
 	}
 
 	if c.config.testing {
@@ -36,7 +38,7 @@ func (c *Client) NewAPIRequest(secret bool, method string, uri string, body inte
 		enc.SetEscapeHTML(false)
 		err := enc.Encode(body)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "encoding body")
 		}
 	}
 

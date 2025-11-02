@@ -3,7 +3,10 @@ package pinpayments
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/google/go-querystring/query"
+	"github.com/pkg/errors"
+
 	"net/http"
 	"time"
 )
@@ -75,12 +78,12 @@ type LineItemsResponse struct {
 func (ts *TransfersService) Create(transfer *Transfer) (tr *TransferResponse, err error) {
 	req, err := ts.client.NewAPIRequest(true, http.MethodPost, "transfers", transfer)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "creating transfer request")
 	}
 
 	res, err := ts.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "creating transfer response")
 	}
 
 	if err = json.Unmarshal(res.content, &tr); err != nil {
@@ -93,12 +96,12 @@ func (ts *TransfersService) GetAll(page int) (tr *TransfersResponse, err error) 
 	ts.client.SetPage(page)
 	req, err := ts.client.NewAPIRequest(true, http.MethodGet, "transfers", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting all transfers request")
 	}
 
 	res, err := ts.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting all transfers response")
 	}
 
 	if err = json.Unmarshal(res.content, &tr); err != nil {
@@ -111,12 +114,12 @@ func (ts *TransfersService) Get(token string) (tr *TransferResponse, err error) 
 	u := fmt.Sprintf("transfers/%s", token)
 	req, err := ts.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting transfer request")
 	}
 
 	res, err := ts.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting transfer response")
 	}
 
 	if err = json.Unmarshal(res.content, &tr); err != nil {
@@ -129,21 +132,22 @@ func (ts *TransfersService) Search(search Search) (tr *TransfersResponse, err er
 	ts.client.SetPage(search.Page)
 	v, err := query.Values(search)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "searching transfers query params")
 	}
+
 	u := fmt.Sprintf("transfers/search/?%s", v.Encode())
 	req, err := ts.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "searching transfers request")
 	}
 
 	res, err := ts.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "searching transfer response")
 	}
 
 	if err = json.Unmarshal(res.content, &tr); err != nil {
-		return
+		return nil, errors.Wrap(err, "marshalling transfer response")
 	}
 	return
 }
@@ -153,16 +157,16 @@ func (ts *TransfersService) GetLineItems(token string, page int) (lr *LineItemsR
 	u := fmt.Sprintf("transfers/%s/line_items", token)
 	req, err := ts.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting line items request")
 	}
 
 	res, err := ts.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "getting line items response")
 	}
 
 	if err = json.Unmarshal(res.content, &lr); err != nil {
-		return
+		return nil, errors.Wrap(err, "marshalling line items response")
 	}
 	return
 }

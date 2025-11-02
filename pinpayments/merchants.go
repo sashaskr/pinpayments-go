@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type MerchantsService service
@@ -153,12 +155,12 @@ type Fee struct {
 func (ms *MerchantsService) Create(merchant *Merchant) (mr *MerchantResponse, err error) {
 	req, err := ms.client.NewAPIRequest(true, http.MethodPost, "merchants", merchant)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error building request")
 	}
 
 	res, err := ms.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error merchant creation request")
 	}
 
 	if err = json.Unmarshal(res.content, &mr); err != nil {
@@ -171,12 +173,12 @@ func (ms *MerchantsService) GetAll(page int) (mr *MerchantsResponse, err error) 
 	ms.client.SetPage(page)
 	req, err := ms.client.NewAPIRequest(true, http.MethodGet, "merchants", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error GetAll merchants request")
 	}
 
 	res, err := ms.client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "error merchant GetAll response")
 	}
 
 	if err = json.Unmarshal(res.content, &mr); err != nil {
@@ -189,12 +191,12 @@ func (ms *MerchantsService) Get(token string) (mr *MerchantFullResponse, err err
 	u := fmt.Sprintf("merchants/%s", token)
 	req, err := ms.client.NewAPIRequest(true, http.MethodGet, u, nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error Get merchant request")
 	}
 
 	res, err := ms.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error merchant Get response")
 	}
 
 	if err = json.Unmarshal(res.content, &mr); err != nil {
@@ -206,12 +208,12 @@ func (ms *MerchantsService) Get(token string) (mr *MerchantFullResponse, err err
 func (ms *MerchantsService) GetDefault(token string) (mr *MerchantFullResponse, err error) {
 	req, err := ms.client.NewAPIRequest(true, http.MethodGet, "merchants/default_settings", nil)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error GetDefault merchant request")
 	}
 
 	res, err := ms.client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrap(err, "error merchant GetDefault response")
 	}
 
 	if err = json.Unmarshal(res.content, &mr); err != nil {
