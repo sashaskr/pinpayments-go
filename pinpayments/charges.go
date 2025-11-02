@@ -41,7 +41,7 @@ type ResponseBody struct {
 	CreatedAt     time.Time `json:"created_at,omitempty"`
 	StatusMessage string    `json:"status_message,omitempty"`
 	ErrorMessage  string    `json:"error_message,omitempty"`
-	Card          Card      `json:"card,omitempty"`
+	Card          *Card     `json:"card,omitempty"`
 	Metadata      `json:"metadata,omitempty"`
 	TotalFees     int `json:"total_fees,omitempty"`
 }
